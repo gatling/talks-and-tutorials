@@ -1,0 +1,8 @@
+.bsp/
+.idea/
+.metals/
+target/
+
+*.iml
+
+.mvn/wrapper/*.jar
