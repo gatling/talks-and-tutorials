@@ -1,0 +1,15 @@
+{
+  "name": "e-commerce-chatbot",
+  "version": "1.0.0",
+  "description": "A e-commerce chatbot",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "node-fetch": "^3.3.2"
+  }
+}
