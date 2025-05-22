@@ -1,0 +1,67 @@
+version: 2
+updates:
+  - package-ecosystem: "maven"
+    directory: "webinars/Qdrant/gatling"
+    schedule:
+      interval: "weekly"
+      day: "thursday"
+  - package-ecosystem: "maven"
+    directory: "webinars/Koyeb/gatling"
+    schedule:
+      interval: "weekly"
+      day: "thursday"
+  - package-ecosystem: "github-actions"
+    directory: "webinars/Koyeb"
+    schedule:
+      interval: "weekly"
+      day: "thursday"
+  - package-ecosystem: "github-actions"
+    directory: "webinars/Docker"
+    schedule:
+      interval: "weekly"
+      day: "thursday"
+  - package-ecosystem: "maven"
+    directory: "webinars/Docker/gatling"
+    schedule:
+      interval: "weekly"
+      day: "thursday" 
+  - package-ecosystem: "npm"
+    directory: "meetup/AI_Developer_Meetup/gatling"
+    schedule:
+      interval: "weekly"
+      day: "thursday"
+  - package-ecosystem: "maven"
+    directory: "articles/websocketguide/Gatling"
+    schedule:
+      interval: "weekly"
+      day: "thursday"
+  - package-ecosystem: "maven"
+    directory: "articles/load-test-llm-sse"
+    schedule:
+      interval: "weekly"
+      day: "thursday"
+  - package-ecosystem: "maven"
+    directory: "articles/gitlabintegration/Gatling/java"
+    schedule:
+      interval: "weekly"
+      day: "thursday"
+  - package-ecosystem: "npm"
+    directory: "articles/gitlabintegration/Gatling/javascript"
+    schedule:
+      interval: "weekly"
+      day: "thursday"
+  - package-ecosystem: "maven"
+    directory: "articles/githubintegration/Gatling/java"
+    schedule:
+      interval: "weekly"
+      day: "thursday"
+  - package-ecosystem: "npm"
+    directory: "articles/githubintegration/Gatling/javascript"
+    schedule:
+      interval: "weekly"
+      day: "thursday"
+  - package-ecosystem: "maven"
+    directory: "articles/datafaker/Gatling"
+    schedule:
+      interval: "weekly"
+      day: "thursday"
