@@ -5,7 +5,7 @@
 
     <groupId>io.gatling.grpc.qdrant</groupId>
     <artifactId>gatling-grpc-qdrant</artifactId>
-    <version>3.13.4</version>
+    <version>3.14.3</version>
 
     <properties>
         <!-- Change the line bellow if you're compiling with JDK 11 or 21 -->
