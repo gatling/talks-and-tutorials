@@ -11,12 +11,12 @@ updates:
       interval: "weekly"
       day: "thursday"
   - package-ecosystem: "github-actions"
-    directory: "webinars/Koyeb"
+    directory: "webinars/Koyeb/.github/workflows"
     schedule:
       interval: "weekly"
       day: "thursday"
   - package-ecosystem: "github-actions"
-    directory: "webinars/Docker"
+    directory: "webinars/Docker/.github/workflows"
     schedule:
       interval: "weekly"
       day: "thursday"
