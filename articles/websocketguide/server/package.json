@@ -1,5 +1,8 @@
 {
   "dependencies": {
-    "ws": "8.18.1"
+    "ws": "8.18.3"
+  },
+  "scripts": {
+    "start": "node index.js"
   }
 }

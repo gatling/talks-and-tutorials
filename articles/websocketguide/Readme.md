@@ -6,8 +6,23 @@ This GitHub repository hosts the Gatling simulation and websocket server that we
 
 ## Prerequisites
 
-- Gatling
+- JDK 11+ and Maven
+- Node.js and npm, to run the example server
 
+## Run example
+
+Server, in the `server` folder:
+
+```shell
+npm install
+npm run start
+```
+
+Gatling simulation, in the `gatling` folder:
+
+```shell
+mvn gatling:test
+```
 
 ## To Go Further
 
