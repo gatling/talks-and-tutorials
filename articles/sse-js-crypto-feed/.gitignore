@@ -1,0 +1,10 @@
+.env
+copilot-instructions.md
+node_modules/
+dist/
+.vscode/
+.DS_Store
+.idea/
+*.log
+*.tsbuildinfo
+coverage/   
