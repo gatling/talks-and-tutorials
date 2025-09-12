@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Live Crypto Feed</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>📈 Live Crypto Price Feed</h1>
+  <p id="status">Connecting...</p>
+  <div id="ticker-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Symbol</th>
+          <th>Price (USD)</th>
+          <th>Last Update</th>
+        </tr>
+      </thead>
+      <tbody id="price-table-body"></tbody>
+    </table>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
