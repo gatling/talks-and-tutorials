@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Load Testing Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .chat-area {
+            height: 300px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            background-color: #fafafa;
+            border-radius: 4px;
+        }
+        .message {
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        .user-message {
+            background-color: #e3f2fd;
+            text-align: right;
+        }
+        .bot-message {
+            background-color: #f1f8e9;
+        }
+        .input-area {
+            display: flex;
+            gap: 10px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #1565c0;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .status {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-style: italic;
+        }
+        .loading {
+            color: #1976d2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Parrot Health WebSocket Demo</h1>
+        <img src="parrot.svg" alt="Parrot Health Logo" style="display: block; margin: 0 auto 20px; width: 150px;">
+        <div class="chat-area" id="chatArea">
+            <div class="status">Connect and start chatting!</div>
+        </div>
+        
+        <div class="input-area">
+            <input type="text" id="messageInput" placeholder="Type your message here..." disabled>
+            <button id="sendButton" disabled>Send</button>
+        </div>
+        
+        <div class="status" id="statusMessage">Connecting...</div>
+    </div>
+
+    <script>
+        class WebSocketDemo {
+            constructor() {
+                this.ws = null;
+                this.chatArea = document.getElementById('chatArea');
+                this.messageInput = document.getElementById('messageInput');
+                this.sendButton = document.getElementById('sendButton');
+                this.statusMessage = document.getElementById('statusMessage');
+                
+                this.init();
+            }
+            
+            init() {
+                this.connect();
+                this.setupEventListeners();
+            }
+            
+            connect() {
+                const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+                this.ws = new WebSocket(`${protocol}://${location.host}`);
+                
+                this.ws.onopen = () => {
+                    this.statusMessage.textContent = 'Connected! Send a message to get it echoed back.';
+                    this.messageInput.disabled = false;
+                    this.sendButton.disabled = false;
+                    this.messageInput.focus();
+                };
+                
+                this.ws.onmessage = (event) => {
+                    this.addMessage(event.data, 'bot');
+                    this.statusMessage.textContent = 'Connected';
+                };
+                
+                this.ws.onclose = () => {
+                    this.statusMessage.textContent = 'Disconnected';
+                    this.messageInput.disabled = true;
+                    this.sendButton.disabled = true;
+                };
+                
+                this.ws.onerror = (error) => {
+                    this.statusMessage.textContent = 'Connection error';
+                    console.error('WebSocket error:', error);
+                };
+            }
+            
+            setupEventListeners() {
+                this.sendButton.addEventListener('click', () => this.sendMessage());
+                
+                this.messageInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        this.sendMessage();
+                    }
+                });
+            }
+            
+            sendMessage() {
+                const message = this.messageInput.value.trim();
+                if (!message || this.ws.readyState !== WebSocket.OPEN) return;
+                
+                this.ws.send(message);
+                this.addMessage(message, 'user');
+                this.messageInput.value = '';
+                this.statusMessage.textContent = 'Waiting for response...';
+                this.statusMessage.className = 'status loading';
+            }
+            
+            addMessage(text, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}-message`;
+                messageDiv.textContent = sender === 'user' ? `You: ${text}` : text;
+                
+                this.chatArea.appendChild(messageDiv);
+                this.chatArea.scrollTop = this.chatArea.scrollHeight;
+                
+                // Clear initial message if this is the first real message
+                if (this.chatArea.children.length === 2) {
+                    this.chatArea.removeChild(this.chatArea.firstChild);
+                }
+            }
+        }
+        
+        // Start the app when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new WebSocketDemo();
+        });
+    </script>
+</body>
+</html>
