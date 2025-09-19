@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+
+  ngrok:
+    image: ngrok/ngrok:latest
+    command:
+      - http
+      - app:3000
+    environment:
+      NGROK_AUTHTOKEN: ${NGROK_AUTHTOKEN:?NGROK_AUTHTOKEN must be set}
+    depends_on:
+      - app
+    ports:
+      - "4040:4040"
