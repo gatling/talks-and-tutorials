@@ -1,0 +1,56 @@
+services:
+  broker:
+    image: eclipse-mosquitto:2
+    container_name: mqtt-broker
+    restart: unless-stopped
+    ports:
+      - "${HOST_BROKER_PORT:-1883}:1883"
+      - "${HOST_BROKER_WS_PORT:-9001}:9001"
+    volumes:
+      - ./broker/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    env_file:
+      - .env
+    environment:
+      BROKER_HOST: ${BROKER_HOST_CONTAINER:-broker}
+      BROKER_PORT: ${BROKER_PORT:-1883}
+      PORT: ${BACKEND_PORT:-8080}
+    depends_on:
+      - broker
+    ports:
+      - "${BACKEND_PORT:-8080}:8080"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    env_file:
+      - .env
+    depends_on:
+      - backend
+    ports:
+      - "${FRONTEND_PORT:-4173}:80"
+    restart: unless-stopped
+
+  simulator:
+    profiles: ["simulator"]
+    build:
+      context: .
+      dockerfile: simulator/Dockerfile
+    env_file:
+      - .env
+    environment:
+      BROKER_HOST: ${BROKER_HOST_CONTAINER:-broker}
+      BROKER_PORT: ${BROKER_PORT:-1883}
+      SIM_TOPIC: ${SIM_TOPIC:-fleet/demo/telemetry}
+      SIM_VEHICLES: ${SIM_VEHICLES:-100}
+      SIM_RATE: ${SIM_RATE:-1000}
+      SIM_REGION: ${SIM_REGION:-paris}
+    depends_on:
+      - broker
+    restart: unless-stopped

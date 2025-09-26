@@ -1,0 +1,28 @@
+{
+  "name": "mqtt-js-demo",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test",
+    "simulate": "node simulator/index.js",
+    "backend": "node backend/index.js",
+    "dev": "vite --config frontend/vite.config.js",
+    "build": "vite build --config frontend/vite.config.js",
+    "start": "vite preview --config frontend/vite.config.js --host 0.0.0.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "leaflet": "^1.9.4",
+    "leaflet.markercluster": "^1.5.3",
+    "mqtt": "^5.5.0",
+    "pino": "^9.2.0",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "vite": "^5.3.1"
+  }
+}

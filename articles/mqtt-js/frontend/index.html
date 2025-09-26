@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fleet Telemetry Dashboard</title>
+</head>
+<body>
+  <div id="app" class="app">
+    <aside class="sidebar">
+      <div class="sidebar__header">
+        <div class="brand">
+          <div class="brand__mark" aria-hidden="true">
+            <svg class="brand__logo" viewBox="0 0 64 48" xmlns="http://www.w3.org/2000/svg" focusable="false">
+              <path d="M32 6c-3 0-6 2.5-6 5.5V18H8l-2 6h6l-2 6h44l4-6h-8l2-6H38v-6.5C38 8.5 35 6 32 6Z" fill="currentColor" />
+              <path d="M18 36h28l2 6H16l2-6Z" fill="currentColor" opacity="0.8" />
+            </svg>
+          </div>
+          <div class="brand__copy">
+            <h1 class="brand__name">ACME Delivery</h1>
+            <p class="brand__tagline">Fleet Dashboard</p>
+          </div>
+        </div>
+        <span id="connection-status" class="status status--connecting">Connecting…</span>
+      </div>
+      <section class="metrics">
+        <div class="metric">
+          <span class="metric__label">Active vehicles</span>
+          <span class="metric__value" id="metric-active">0</span>
+        </div>
+        <div class="metric">
+          <span class="metric__label">Message rate (msg/s)</span>
+          <span class="metric__value" id="metric-rate">0.00</span>
+        </div>
+        <div class="metric">
+          <span class="metric__label">Average latency</span>
+          <span class="metric__value" id="metric-latency">—</span>
+        </div>
+      </section>
+      <section class="filters">
+        <h2>Filters</h2>
+        <div class="filter-group">
+          <label class="filter-group__label" for="filter-fuel">Min fuel (%)</label>
+          <input id="filter-fuel" class="filter-range" type="range" min="0" max="100" step="5" value="0">
+          <div class="filter-group__value">
+            <span id="filter-fuel-value">0%</span>
+          </div>
+        </div>
+        <div class="filter-group filter-group--status">
+          <span class="filter-group__label">Engine status</span>
+          <div class="status-filter" role="group" aria-label="Filter vehicles by engine status">
+            <button type="button" class="status-filter__button js-status-filter-btn" data-status="all" aria-pressed="true">
+              <span class="status-filter__dot status-filter__dot--all" aria-hidden="true"></span>
+              <span>All</span>
+            </button>
+            <button type="button" class="status-filter__button status-filter__button--running js-status-filter-btn" data-status="running" aria-pressed="true">
+              <span class="status-filter__dot status-filter__dot--running" aria-hidden="true"></span>
+              <span>Running</span>
+            </button>
+            <button type="button" class="status-filter__button status-filter__button--idle js-status-filter-btn" data-status="idle" aria-pressed="true">
+              <span class="status-filter__dot status-filter__dot--idle" aria-hidden="true"></span>
+              <span>Idle</span>
+            </button>
+            <button type="button" class="status-filter__button status-filter__button--off js-status-filter-btn" data-status="off" aria-pressed="true">
+              <span class="status-filter__dot status-filter__dot--off" aria-hidden="true"></span>
+              <span>Off</span>
+            </button>
+          </div>
+        </div>
+      </section>
+      <section class="meta">
+        <p class="meta__item">Stats updated <span id="stats-updated">never</span></p>
+        <button id="reconnect-btn" type="button" class="button">Reconnect</button>
+      </section>
+    </aside>
+    <div class="map-container">
+      <div class="map-wrapper">
+        <div id="map"></div>
+        <div id="toast-container" class="toast-container"></div>
+      </div>
+      <section class="legend legend--panel">
+        <h2>Legend</h2>
+        <div class="legend__section">
+          <h3>Fuel level</h3>
+          <ul class="legend__list legend__list--fuel">
+            <li>
+              <span class="legend__swatch legend__swatch--fuel-high" aria-hidden="true"></span>
+              <span>60% or higher</span>
+            </li>
+            <li>
+              <span class="legend__swatch legend__swatch--fuel-medium" aria-hidden="true"></span>
+              <span>30% to 59%</span>
+            </li>
+            <li>
+              <span class="legend__swatch legend__swatch--fuel-low" aria-hidden="true"></span>
+              <span>Below 30%</span>
+            </li>
+            <li>
+              <span class="legend__swatch legend__swatch--fuel-unknown" aria-hidden="true"></span>
+              <span>No fuel data</span>
+            </li>
+          </ul>
+        </div>
+        <div class="legend__section">
+          <h3>Engine status</h3>
+          <ul class="legend__list legend__list--status">
+            <li>
+              <span class="legend__badge legend__badge--running">Running</span>
+              <span>Powertrain engaged</span>
+            </li>
+            <li>
+              <span class="legend__badge legend__badge--idle">Idle</span>
+              <span>Vehicle stationary with engine on</span>
+            </li>
+            <li>
+              <span class="legend__badge legend__badge--off">Off</span>
+              <span>Engine turned off</span>
+            </li>
+          </ul>
+        </div>
+        <p class="legend__note">Trails trace recent positions; clusters expand automatically when zoomed in.</p>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    window.APP_CONFIG = {
+      httpBase: 'http://localhost:8080',
+      wsUrl: 'ws://localhost:8080/stream',
+      statsRefreshMs: 5000,
+      renderThrottleMs: 250,
+      trailLength: 20,
+      clusterThreshold: 200,
+      maxLatencySamples: 200
+    };
+  </script>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+node_modules
+npm-debug.log
+Dockerfile
+Dockerfile.*
+dist
+frontend/dist
+backend/dist
+simulator/dist
+.vscode
+.git
+.gitignore
+docker-compose.override.yml
+.env
