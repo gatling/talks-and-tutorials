@@ -37,6 +37,9 @@ updates:
       - "meetup/AI_Developer_Meetup/gatling"
       - "articles/gitlabintegration/Gatling/javascript"
       - "articles/githubintegration/Gatling/javascript"
+      - "articles/sse-js-crypto-feed"
+      - "articles/mqtt-js"
+      - "articles/websocket-chatbot-js"
     commit-message:
       prefix: "chore"
     schedule:

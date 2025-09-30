@@ -37,4 +37,4 @@ npm install
 npx gatling run
 ```
 
-If you have any problem with the application or the simulation, create an issue on this repository.
+If you have any problems with the application or the simulation, create an issue in this repository.
