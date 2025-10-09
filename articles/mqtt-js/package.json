@@ -19,7 +19,7 @@
     "leaflet": "^1.9.4",
     "leaflet.markercluster": "^1.5.3",
     "mqtt": "^5.5.0",
-    "pino": "^9.2.0",
+    "pino": "^10.0.0",
     "ws": "^8.18.0"
   },
   "devDependencies": {
