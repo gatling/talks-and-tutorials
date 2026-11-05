@@ -26,6 +26,7 @@ updates:
       default-days: 7
   - package-ecosystem: "github-actions"
     directories:
+      - "/"
       - "webinars/Koyeb/.github/workflows"
       - "webinars/Docker/.github/workflows"
     commit-message:
