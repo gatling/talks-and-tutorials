@@ -85,4 +85,7 @@ jobs:
 
       - name: Build
         working-directory: ${{ matrix.directory }}
-        run: ./mvnw --batch-mode test-compile
+        run: |
+          # webinars/Koyeb/gatling reads its local repository from REPO_HOME
+          export REPO_HOME="$HOME/.m2/repository"
+          ./mvnw --batch-mode test-compile

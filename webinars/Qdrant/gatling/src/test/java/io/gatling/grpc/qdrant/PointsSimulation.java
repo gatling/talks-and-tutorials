@@ -14,8 +14,10 @@ import static io.gatling.javaapi.grpc.GrpcDsl.*;
 
 public class PointsSimulation extends Simulation {
 
-    GrpcProtocolBuilder baseGrpcProtocol = grpc.forAddress(System.getProperty("url"), 6334)
-            .asciiHeader("api-key").value(System.getProperty("api-key"));
+    GrpcProtocolBuilder baseGrpcProtocol = grpc.serverConfigurations(
+            grpc.serverConfiguration("qdrant")
+                    .forAddress(System.getProperty("url"), 6334)
+                    .asciiHeader("api-key").value(System.getProperty("api-key")));
 
 
     ScenarioBuilder AddPoints = scenario("Add points")

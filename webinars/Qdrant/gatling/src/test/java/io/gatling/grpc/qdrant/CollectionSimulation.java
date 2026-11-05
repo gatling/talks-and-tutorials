@@ -14,8 +14,10 @@ import static io.gatling.javaapi.grpc.GrpcDsl.*;
 
 public class CollectionSimulation extends Simulation {
 
-    GrpcProtocolBuilder baseGrpcProtocol = grpc.forAddress(System.getProperty("url"), 6334)
-            .asciiHeader("api-key").value(System.getProperty("api-key"));
+    GrpcProtocolBuilder baseGrpcProtocol = grpc.serverConfigurations(
+            grpc.serverConfiguration("qdrant")
+                    .forAddress(System.getProperty("url"), 6334)
+                    .asciiHeader("api-key").value(System.getProperty("api-key")));
 
     ScenarioBuilder CollectionsOpti = scenario("LoadTest Collections")
             .exec( session -> {
