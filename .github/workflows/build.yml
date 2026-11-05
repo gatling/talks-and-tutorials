@@ -1,0 +1,88 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  npm:
+    name: npm (${{ matrix.directory }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        directory:
+          - articles/githubintegration/Gatling/javascript
+          - articles/gitlabintegration/Gatling/javascript
+          - articles/mqtt-js
+          - articles/mqtt-js/gatling/javascript
+          - articles/mqtt-js/gatling/typescript
+          - articles/sse-js-crypto-feed/gatling/javascript
+          - articles/sse-js-crypto-feed/gatling/typescript
+          - articles/sse-js-crypto-feed/sse-demo-app
+          - articles/websocket-chatbot-js
+          - articles/websocket-chatbot-js/gatling/javascript
+          - articles/websocket-chatbot-js/gatling/typescript
+          - articles/websocketguide/server
+          - meetup/AI_Developer_Meetup/app
+          - meetup/AI_Developer_Meetup/gatling
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+
+      - name: Build
+        working-directory: ${{ matrix.directory }}
+        run: |
+          if [ -f package-lock.json ]; then npm ci; else npm install; fi
+          npm run build --if-present
+
+  maven:
+    name: maven (${{ matrix.directory }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        directory:
+          - articles/datafaker/Gatling
+          - articles/githubintegration/Gatling/java
+          - articles/gitlabintegration/Gatling/java
+          - articles/load-test-llm-sse
+          - articles/websocketguide/Gatling
+          - webinars/Docker/gatling
+          - webinars/Docker/testcontainers
+          - webinars/Koyeb/gatling
+          - webinars/Qdrant/gatling
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Java
+        uses: actions/setup-java@77dd5b2ce225ea11469928ac317850245a74ae78 # v6.2.0
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: maven
+
+      - name: Build
+        working-directory: ${{ matrix.directory }}
+        run: ./mvnw --batch-mode test-compile
