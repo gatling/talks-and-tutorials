@@ -41,9 +41,18 @@ updates:
       - "meetup/AI_Developer_Meetup/gatling"
       - "articles/gitlabintegration/Gatling/javascript"
       - "articles/githubintegration/Gatling/javascript"
-      - "articles/sse-js-crypto-feed"
+      - "articles/sse-js-crypto-feed/gatling/javascript"
+      - "articles/sse-js-crypto-feed/gatling/typescript"
       - "articles/mqtt-js"
+      - "articles/mqtt-js/gatling/javascript"
+      - "articles/mqtt-js/gatling/typescript"
       - "articles/websocket-chatbot-js"
+      - "articles/websocket-chatbot-js/gatling/javascript"
+      - "articles/websocket-chatbot-js/gatling/typescript"
+    groups:
+      gatling:
+        patterns:
+          - "@gatling.io/*"
     commit-message:
       prefix: "chore"
     schedule:
